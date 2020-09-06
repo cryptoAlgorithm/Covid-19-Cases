@@ -42,7 +42,7 @@ class DetailsView : AppCompatActivity() {
             openMap.visibility = View.VISIBLE
             val openMapButton = findViewById<Button>(R.id.openMap)
             openMapButton.setOnClickListener {
-                startActivity(Intent(this@DetailsView, maps::class.java))
+                startActivity(Intent(this@DetailsView, Maps::class.java))
             }
         }
         findViewById<TextView>(R.id.country).text = country

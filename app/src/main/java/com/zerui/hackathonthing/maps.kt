@@ -30,8 +30,8 @@ import com.mapbox.mapboxsdk.plugins.annotation.Symbol
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions
 
-class maps : AppCompatActivity(), OnMapReadyCallback, PermissionsListener {
-    lateinit var map: MapView
+class Maps : AppCompatActivity(), OnMapReadyCallback, PermissionsListener {
+    private lateinit var map: MapView
     private lateinit var database: DatabaseReference
     private lateinit var ref: DatabaseReference
     private var permissionsManager: PermissionsManager = PermissionsManager(this)
