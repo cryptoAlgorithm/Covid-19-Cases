@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.zerui.hackathonthing.ScrollingActivity">
+
+    <item
+        android:id="@+id/searchBar"
+        android:icon="@drawable/ic_round_search_24"
+        android:title="Search"
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/toMusic"
+        android:icon="@drawable/ic_round_music_note_24"
+        android:title="Music"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/ic_round_settings_24"
+        android:orderInCategory="101"
+        android:title="@string/action_settings"
+        app:showAsAction="ifRoom" />
+</menu>

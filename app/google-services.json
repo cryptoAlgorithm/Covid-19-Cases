@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "811610869752",
+    "firebase_url": "https://nush-hackathon.firebaseio.com",
+    "project_id": "nush-hackathon",
+    "storage_bucket": "nush-hackathon.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:811610869752:android:008d11cbd6ac19f0acd00d",
+        "android_client_info": {
+          "package_name": "com.zerui.hackathonthing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "811610869752-fomdskr9i7ttssk2a13t0mhie12kr8vb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzMPtUxxm214mO4YFmygf1afwxCMs_fm4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "811610869752-fomdskr9i7ttssk2a13t0mhie12kr8vb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "811610869752-0ut7e8mkdticvdhtgpm0grgt3j3tpc75.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "covid.nush.hackathon"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">COVID-19 Cases</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="access_token">pk.eyJ1IjoibnVzaGhhY2thdGhvbiIsImEiOiJja2U0aDI3ZncwMTJpMnNwbzV1aHpsZjdrIn0.JFgIR7_NDA7SshV8G-1OVw</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+</resources>
