@@ -16,10 +16,13 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_music_player.*
 import kotlinx.android.synthetic.main.one_row.view.*
+import java.util.*
 
 class MusicPlayer : AppCompatActivity() {
+    @ExperimentalStdlibApi
     private fun String.capitalizeWords(): String = // Addon function for String class
-        split(" ").joinToString(" ") { it.toLowerCase().capitalize() }
+        split(" ").joinToString(" ") { it.toLowerCase(Locale.ROOT).capitalize(Locale.ROOT) }
+
     private lateinit var ref: StorageReference
 
     private fun listRaw() {
@@ -30,7 +33,8 @@ class MusicPlayer : AppCompatActivity() {
 
         ref.listAll()
             .addOnSuccessListener { listResult ->
-                listResult.prefixes.forEach { _ ->/*
+                listResult.prefixes.forEach { _ ->
+                    /* NOTES:
                     _ = prefix
                     All the prefixes under listRef.
                     You may call listAll() recursively on them.
@@ -63,7 +67,7 @@ class MusicPlayer : AppCompatActivity() {
                                 .putExtra("url", it.toString())
                             // .putExtra("srcResource", field.getInt(field))
 
-                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 startForegroundService(intent)
                             }
                             else {
@@ -74,7 +78,7 @@ class MusicPlayer : AppCompatActivity() {
                                 .apply {
                                     action = "com.zerui.hackathonthing.action.PLAY"
                                 }
-                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 startForegroundService(playIntent)
                             }
                             else {
@@ -149,7 +153,7 @@ class MusicPlayer : AppCompatActivity() {
         // Updates progress bar and text
         if (bgMusicPlayer.isPlaying) {
             seekBar.isEnabled = true
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                 seekBar.setProgress(bgMusicPlayer.progress, true)
             }
             else {
@@ -231,7 +235,12 @@ class MusicPlayer : AppCompatActivity() {
                 .apply {
                     action = "com.zerui.hackathonthing.action.STOP"
                 }
-            startForegroundService(intent)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(intent)
+            }
+            else {
+                startService(intent)
+            }
             pausePlay.setImageDrawable(resources.getDrawable(R.drawable.ic_round_play_arrow_24, applicationContext.theme))
         }
         repeatToggle.setOnCheckedChangeListener { _, isChecked ->

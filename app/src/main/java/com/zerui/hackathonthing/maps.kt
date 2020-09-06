@@ -25,6 +25,8 @@ import com.mapbox.mapboxsdk.maps.MapView
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback
 import com.mapbox.mapboxsdk.maps.Style
+import com.mapbox.mapboxsdk.plugins.annotation.OnSymbolClickListener
+import com.mapbox.mapboxsdk.plugins.annotation.Symbol
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions
 
@@ -36,7 +38,7 @@ class maps : AppCompatActivity(), OnMapReadyCallback, PermissionsListener {
     private lateinit var mapboxMap: MapboxMap
 
     private fun getBitmap(context: Context, vectorDrawableId: Int): Bitmap? {
-        var bitmap: Bitmap?
+        val bitmap: Bitmap?
         val vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableId)
         bitmap = Bitmap.createBitmap(
             vectorDrawable!!.intrinsicWidth,
@@ -72,7 +74,7 @@ class maps : AppCompatActivity(), OnMapReadyCallback, PermissionsListener {
         if (!this::database.isInitialized) {
             try {
                 // Prevents app from randomly crashing
-                FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+                FirebaseDatabase.getInstance().setPersistenceEnabled(true)
             } catch (ex: Exception) {
                 // Nothing here!!!
             }
@@ -80,7 +82,7 @@ class maps : AppCompatActivity(), OnMapReadyCallback, PermissionsListener {
         }
         ref = database.child("locations")
 
-        map = findViewById<MapView>(R.id.mapView);
+        map = findViewById(R.id.mapView)
         map.onCreate(savedInstanceState)
 
         setSupportActionBar(findViewById(R.id.mapToolbar))
@@ -93,25 +95,25 @@ class maps : AppCompatActivity(), OnMapReadyCallback, PermissionsListener {
     @SuppressLint("MissingPermission")
     override fun onMapReady(mapboxMap: MapboxMap) {
         this.mapboxMap = mapboxMap
-        // Remove the Mapbox icon and watermark
+        // Remove the MapBox icon and watermark
         // I know there's copyright issues. I'm gonna add some credits later
         mapboxMap.uiSettings.isAttributionEnabled = false
         mapboxMap.uiSettings.isLogoEnabled = false
         // Disable compass icon
         mapboxMap.uiSettings.isCompassEnabled = false
-        lateinit var mapStyle: String
-        when (PreferenceManager.getDefaultSharedPreferences(applicationContext).getString(
+        val mapStyle: String =
+            when (PreferenceManager.getDefaultSharedPreferences(applicationContext).getString(
             "theme",
             "light"
         )) {
             "black" -> {
-                mapStyle = Style.TRAFFIC_NIGHT
+                Style.TRAFFIC_NIGHT
             }
-            "dark"-> {
-                mapStyle = Style.TRAFFIC_NIGHT
+            "dark" -> {
+                Style.TRAFFIC_NIGHT
             }
             else -> {
-                mapStyle = Style.TRAFFIC_DAY
+                Style.TRAFFIC_DAY
             }
         }
         mapboxMap.setStyle(mapStyle) { style ->
@@ -120,14 +122,28 @@ class maps : AppCompatActivity(), OnMapReadyCallback, PermissionsListener {
             // Lol took a long time for me to figure out how to add icons
 //            val hey = BitmapFactory.decodeResource(resources, R.drawable.ic_baseline_location_pin)
 //            Log.i("Bitmap Resource", hey.toString())
-            style.addImage("locationPin", getBitmap(this, R.drawable.ic_baseline_location_pin)!!, true)
+            style.addImage(
+                "locationPin",
+                getBitmap(this, R.drawable.ic_baseline_location_pin)!!,
+                true
+            )
+
+            // Add click listener
+            symbolManager.addClickListener { symbol ->
+                Snackbar.make(
+                    findViewById<View>(R.id.mapView),
+                    "Clicked on symbol",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+                true
+            }
 
             symbolManager.iconAllowOverlap = true
             symbolManager.iconIgnorePlacement = true
             val postListener = object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     dataSnapshot.children.forEach {
-                        var locationList = it.value.toString().drop(1).dropLast(1)
+                        val locationList = it.value.toString().drop(1).dropLast(1)
                             .split(", (?=([^\"]*\"[^\"]*\")*[^\"]*$)".toRegex())
                         Log.i("LocationList:", locationList.toString())
 
@@ -205,8 +221,13 @@ class maps : AppCompatActivity(), OnMapReadyCallback, PermissionsListener {
         } else {
             permissionsManager = PermissionsManager(this)
 //            permissionsManager.requestLocationPermissions(this)
-            ActivityCompat.requestPermissions(this,
-                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_NETWORK_STATE), 1)
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    android.Manifest.permission.ACCESS_FINE_LOCATION,
+                    android.Manifest.permission.ACCESS_NETWORK_STATE
+                ), 1
+            )
         }
     }
 
