@@ -63,13 +63,24 @@ class MusicPlayer : AppCompatActivity() {
                                 .putExtra("url", it.toString())
                             // .putExtra("srcResource", field.getInt(field))
 
-                            startForegroundService(intent)
+                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                startForegroundService(intent)
+                            }
+                            else {
+                                startService(intent)
+                            }
                             // Music will stop when source is changed. So start it again
                             val playIntent = Intent(this@MusicPlayer, bgMusicPlayer::class.java)
                                 .apply {
                                     action = "com.zerui.hackathonthing.action.PLAY"
                                 }
-                            startForegroundService(playIntent) // PausePlay won't work as it thinks it was not playing
+                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                startForegroundService(playIntent)
+                            }
+                            else {
+                                startService(playIntent)
+                            }
+                            // PausePlay won't work as it thinks it was not playing
                             pausePlay.setImageDrawable(resources.getDrawable(R.drawable.ic_round_pause_24, applicationContext.theme))
                             songTitle.text = songName
                         }.addOnFailureListener {
@@ -138,7 +149,12 @@ class MusicPlayer : AppCompatActivity() {
         // Updates progress bar and text
         if (bgMusicPlayer.isPlaying) {
             seekBar.isEnabled = true
-            seekBar.setProgress(bgMusicPlayer.progress, true)
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                seekBar.setProgress(bgMusicPlayer.progress, true)
+            }
+            else {
+                seekBar.progress = bgMusicPlayer.progress
+            }
             val millisecondsElapsed = bgMusicPlayer.getElapsed
             val millisecondsRemaining = bgMusicPlayer.getRemaining
             elapsed.text = "${(millisecondsElapsed/1000/60).toString().padStart(2, '0')}:${(millisecondsElapsed/1000%60).toString().padStart(2, '0')}" // Minutes:Seconds
