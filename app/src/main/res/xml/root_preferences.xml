@@ -1,5 +1,15 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory android:title="Search">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="save_searches"
+            android:persistent="true"
+            android:summary="Save your 5 most recent searched countries for quick access"
+            android:switchTextOff="rthtrhsrxthb"
+            android:title="Save recent searches" />
+    </PreferenceCategory>
     <PreferenceCategory android:title="Appearance">
         <ListPreference
             android:defaultValue="false"
@@ -13,12 +23,24 @@
             android:key="radius"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="Rounded Image Radius" />
+            android:title="Rounded image radius" />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="Developer Settings">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="developer_settings"
+            android:title="Enable developer settings" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="developer_settings"
+            android:key="locationServ"
+            android:title="Location service" />
+    </PreferenceCategory>
     <PreferenceCategory
         android:focusedByDefault="false"
-        android:title="Copyright 2020 Vincent Kwok: Covid'19 Cases">
+        android:title="Copyright 2020 CryptoAlgo Inc.">
 
     </PreferenceCategory>
 </PreferenceScreen>

@@ -25,6 +25,7 @@ class MusicPlayer : AppCompatActivity() {
 
     private lateinit var ref: StorageReference
 
+    @ExperimentalStdlibApi
     private fun listRaw() {
         val inflater = layoutInflater
         val songTable = songsList
@@ -175,6 +176,7 @@ class MusicPlayer : AppCompatActivity() {
         }
     }
 
+    @kotlin.ExperimentalStdlibApi
     override fun onCreate(savedInstanceState: Bundle?) {
         when (PreferenceManager.getDefaultSharedPreferences(applicationContext).getString(
             "theme",
