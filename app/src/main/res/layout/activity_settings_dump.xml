@@ -18,13 +18,48 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/QRImg"
-        android:layout_width="250dp"
+    <ScrollView
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/import_export_toolbar"
-        app:tint="#00000000" />
+        app:layout_constraintTop_toBottomOf="@+id/import_export_toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/passwordPrompt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Please enter a password for preference encryption"
+                android:textSize="24sp" />
+
+            <EditText
+                android:id="@+id/encryptPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:hint="Must be longer than 8 characters"
+                android:inputType="textPassword" />
+
+            <ImageView
+                android:id="@+id/QRImg"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:contentDescription="QR Code to export preferences"
+                app:tint="#00000000" />
+        </LinearLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
