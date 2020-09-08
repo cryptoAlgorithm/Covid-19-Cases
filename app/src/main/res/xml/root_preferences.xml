@@ -14,7 +14,7 @@
         android:id="@+id/preferencesDump"
         app:fragment="com.zerui.hackathonthing.SettingsActivity$appearanceSettingsFragment"
         app:key="preferencesDump"
-        app:title="Dump Preferences" />
+        app:title="Import/export settings" />
 
     <PreferenceCategory android:title="Developer Settings">
 

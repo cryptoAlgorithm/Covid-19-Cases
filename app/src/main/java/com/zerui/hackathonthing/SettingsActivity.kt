@@ -1,5 +1,6 @@
 package com.zerui.hackathonthing
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.util.Base64
@@ -115,6 +116,8 @@ class SettingsActivity : AppCompatActivity() {
                     plainText = String(it, Charsets.UTF_8)
                 }
                 Log.d("DecryptTest", plainText.toString())
+
+                startActivity(Intent(requireContext(), SettingsDump::class.java))
                 return@setOnPreferenceClickListener true
             }
         }
