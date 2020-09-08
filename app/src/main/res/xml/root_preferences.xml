@@ -1,15 +1,10 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <PreferenceCategory android:title="Search">
+    <Preference
+        app:fragment="com.zerui.hackathonthing.SettingsActivity$SearchSettingsFragment"
+        app:icon="@drawable/ic_round_search_24"
+        app:title="Search" />
 
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="save_searches"
-            android:persistent="true"
-            android:summary="Save your 5 most recent searched countries for quick access"
-            android:switchTextOff="rthtrhsrxthb"
-            android:title="Save recent searches" />
-    </PreferenceCategory>
     <PreferenceCategory android:title="Appearance">
         <ListPreference
             android:defaultValue="false"

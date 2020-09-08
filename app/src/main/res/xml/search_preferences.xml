@@ -1,0 +1,17 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_round_history_24"
+        android:key="save_searches"
+        android:persistent="true"
+        android:summary="Save your 5 most recent searched countries for quick access"
+        android:switchTextOff="rthtrhsrxthb"
+        android:title="Save recent searches" />
+
+    <PreferenceCategory
+        android:focusedByDefault="false"
+        android:title="Copyright 2020 CryptoAlgo Inc.">
+
+    </PreferenceCategory>
+</PreferenceScreen>

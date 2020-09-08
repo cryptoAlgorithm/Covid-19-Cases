@@ -36,6 +36,12 @@ class SettingsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
+    class SearchSettingsFragment : PreferenceFragmentCompat() {
+        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+            setPreferencesFromResource(R.xml.search_preferences, rootKey)
+        }
+    }
+
     class SettingsFragment : PreferenceFragmentCompat() {
         private fun promptRestart() {
             Snackbar.make(
