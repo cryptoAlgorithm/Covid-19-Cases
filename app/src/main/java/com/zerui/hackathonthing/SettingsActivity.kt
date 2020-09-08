@@ -2,12 +2,14 @@ package com.zerui.hackathonthing
 
 import android.os.Bundle
 import android.text.InputType
+import android.util.Base64
 import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
 import androidx.preference.*
 import com.google.android.material.snackbar.Snackbar
+import com.zerui.hackathonthing.Crypto as cryptography
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,7 +97,18 @@ class SettingsActivity : AppCompatActivity() {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
             findPreference<Preference>("preferencesDump")?.setOnPreferenceClickListener {
-                Log.d("PreferenceDump", PreferenceManager.getDefaultSharedPreferences(requireContext()).all.toString().replace("=", ":"))
+                val map = cryptography.encrypt("test", "password")
+                val iv = map["iv"]
+                val encrypted = map["encrypted"]
+                val salt = map["salt"]
+
+                Log.d("EncryptTest", Base64.encodeToString(encrypted, Base64.NO_WRAP))
+                val decrypted = cryptography.decrypt(hashMapOf("iv" to iv!!, "salt" to salt!!, "encrypted" to encrypted!!), "password")
+                var plainText: String? = null
+                decrypted?.let {
+                    plainText = String(it, Charsets.UTF_8)
+                }
+                Log.d("DecryptTest", plainText.toString())
                 return@setOnPreferenceClickListener true
             }
         }
