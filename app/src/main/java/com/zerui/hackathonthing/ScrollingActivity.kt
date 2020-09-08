@@ -123,15 +123,15 @@ class ScrollingActivity : AppCompatActivity() {
         activityMenu = menu
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_scrolling, menu)
-        val searchView: SearchView =
-            MenuItemCompat.getActionView(menu.findItem(R.id.searchBar)) as SearchView
+        val searchView: SearchView = menu.findItem(R.id.searchBar).actionView as SearchView
+
         // searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         // searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.queryHint = "Country"
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(query: String): Boolean {
                 var i = 0
-                var newDataSet: ArrayList<List<String>> = ArrayList()
+                val newDataSet: ArrayList<List<String>> = ArrayList()
                 var numVisible = 0
                 while (i < data.size) {
                     if (data[i][5].contains(query, ignoreCase = true)) {
@@ -155,8 +155,7 @@ class ScrollingActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val searchView: SearchView =
-            MenuItemCompat.getActionView(activityMenu?.findItem(R.id.searchBar)) as SearchView
+        val searchView: SearchView = activityMenu?.findItem(R.id.searchBar)?.actionView as SearchView
         if (!searchView.isIconified) {
             searchView.isIconified = true
         } else {

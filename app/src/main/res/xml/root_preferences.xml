@@ -10,6 +10,12 @@
         app:icon="@drawable/ic_round_color_lens_24"
         app:title="Appearance" />
 
+    <Preference
+        android:id="@+id/preferencesDump"
+        app:fragment="com.zerui.hackathonthing.SettingsActivity$appearanceSettingsFragment"
+        app:key="preferencesDump"
+        app:title="Dump Preferences" />
+
     <PreferenceCategory android:title="Developer Settings">
 
         <SwitchPreference

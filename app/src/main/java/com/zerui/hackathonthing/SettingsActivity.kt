@@ -2,6 +2,7 @@ package com.zerui.hackathonthing
 
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
@@ -92,6 +93,11 @@ class SettingsActivity : AppCompatActivity() {
     class SettingsFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
+
+            findPreference<Preference>("preferencesDump")?.setOnPreferenceClickListener {
+                Log.d("PreferenceDump", PreferenceManager.getDefaultSharedPreferences(requireContext()).all.toString().replace("=", ":"))
+                return@setOnPreferenceClickListener true
+            }
         }
     }
 }

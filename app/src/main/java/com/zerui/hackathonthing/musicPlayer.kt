@@ -7,6 +7,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
@@ -57,7 +58,7 @@ class MusicPlayer : AppCompatActivity() {
                     row.countryImg.visibility = View.GONE // Allows me to reuse the one row xml without rewriting it
                     row.totalCases.visibility = View.GONE
                     // Replace underscores with spaces and capitalise (Somehow resources cannot have any of those)
-                    row.setOnClickListener {
+                    row.setOnClickListener { it ->
                         if (bgMusicPlayer.isBuffering) {
                             Snackbar.make(
                                 it,
@@ -74,7 +75,10 @@ class MusicPlayer : AppCompatActivity() {
                                         action = "com.zerui.hackathonthing.action.CHANGEMUSIC"
                                     }
                                     .putExtra("songName", songName)
-                                    .putExtra("url", it.toString())
+                                    .putExtra(
+                                        "url",
+                                        it.toString()
+                                    )
                                 // .putExtra("srcResource", field.getInt(field))
 
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -166,7 +170,7 @@ class MusicPlayer : AppCompatActivity() {
         // Updates progress bar and text
         if (bgMusicPlayer.isPlaying) {
             seekBar.isEnabled = true
-            if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 seekBar.setProgress(bgMusicPlayer.progress, true)
             }
             else {
@@ -211,7 +215,8 @@ class MusicPlayer : AppCompatActivity() {
         listRaw()
 
         updateElements() // Need to update once first
-        val handler = Handler()
+        val handler = Handler(Looper.getMainLooper())
+
         handler.postDelayed(object : Runnable {
             @SuppressLint("SetTextI18n")
             override fun run() {
