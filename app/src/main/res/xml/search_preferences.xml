@@ -6,7 +6,6 @@
         android:key="save_searches"
         android:persistent="true"
         android:summary="Save your 5 most recent searched countries for quick access"
-        android:switchTextOff="rthtrhsrxthb"
         android:title="Save recent searches" />
 
     <PreferenceCategory

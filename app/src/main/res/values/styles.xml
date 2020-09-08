@@ -44,18 +44,22 @@
         <item name="android:textColorTertiary">#AFAFAF</item>
         <item name="android:textColorSecondary">#AFAFAF</item>
         <item name="alertDialogTheme">@style/DialogThemeDark</item>
+        <item name="android:tint">#FFF</item>
     </style>
     <style name="settingsLight" parent="LightTheme">
         <item name="android:textColor">#313131</item>
         <item name="android:textColorTertiary">#313131</item>
         <item name="android:textColorSecondary">#313131</item>
         <item name="alertDialogTheme">@style/DialogThemeLight</item>
+        <item name="popupTheme">@style/DialogThemeLight</item>
+        <item name="android:tint">#000</item>
     </style>
     <style name="settingsGrey" parent="GreyTheme">
         <item name="android:textColor">#DEDEDE</item>
         <item name="android:textColorTertiary">#DEDEDE</item>
         <item name="android:textColorSecondary">#DEDEDE</item>
         <item name="alertDialogTheme">@style/DialogThemeDark</item>
+        <item name="android:tint">#FFF</item>
     </style>
 
     <style name="splashScreenTheme" parent="AppTheme.NoActionBar">
@@ -77,6 +81,9 @@
     <style name="DialogThemeLight" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:colorBackground">#ECECEC</item>
         <item name="android:textColorSecondary">#313131</item>
+        <item name="android:textColor">#000</item>
+        <item name="android:textColorPrimary">#000</item>
+        <item name="editTextColor">#111</item>
         <item name="textColorAlertDialogListItem">#313131</item>
         <item name="color">@color/colorAccent</item>
     </style>

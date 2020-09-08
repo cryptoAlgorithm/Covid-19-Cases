@@ -68,35 +68,6 @@ class ScrollingActivity : AppCompatActivity() {
         ref.addListenerForSingleValueEvent(postListener)
     }
 
-    override fun onResume() {
-        when (PreferenceManager.getDefaultSharedPreferences(applicationContext).getString(
-            "theme",
-            "light"
-        )) {
-            "black" -> {
-                setTheme(R.style.DarkTheme)
-            }
-            "dark" -> {
-                setTheme(R.style.GreyTheme)
-            }
-            else -> {
-                setTheme(R.style.LightTheme)
-            }
-        }
-        super.onResume()
-        if (listState != null) {
-            recyclerTable.layoutManager?.onRestoreInstanceState(listState)
-        }
-        if (activityMenu != null) {
-            // Close searchView if open
-            val searchView: SearchView =
-                MenuItemCompat.getActionView(activityMenu?.findItem(R.id.searchBar)) as SearchView
-            while (!searchView.isIconified) {
-                searchView.isIconified = true
-            }
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         when (PreferenceManager.getDefaultSharedPreferences(applicationContext).getString(
             "theme",

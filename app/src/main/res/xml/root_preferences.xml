@@ -5,21 +5,10 @@
         app:icon="@drawable/ic_round_search_24"
         app:title="Search" />
 
-    <PreferenceCategory android:title="Appearance">
-        <ListPreference
-            android:defaultValue="false"
-            android:entries="@array/theme_entries"
-            android:entryValues="@array/theme_values"
-            android:key="theme"
-            android:title="Theme"
-            app:useSimpleSummaryProvider="true" />
-        <EditTextPreference
-            android:defaultValue="14"
-            android:key="radius"
-            android:selectAllOnFocus="true"
-            android:singleLine="true"
-            android:title="Rounded image radius" />
-    </PreferenceCategory>
+    <Preference
+        app:fragment="com.zerui.hackathonthing.SettingsActivity$appearanceSettingsFragment"
+        app:icon="@drawable/ic_round_color_lens_24"
+        app:title="Appearance" />
 
     <PreferenceCategory android:title="Developer Settings">
 

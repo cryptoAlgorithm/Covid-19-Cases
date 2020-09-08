@@ -1,0 +1,27 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ListPreference
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:defaultValue="false"
+        android:entries="@array/theme_entries"
+        android:entryValues="@array/theme_values"
+        android:key="theme"
+        android:title="Theme"
+        app:useSimpleSummaryProvider="true" />
+    <EditTextPreference
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:defaultValue="14"
+        android:key="radius"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Rounded image radius" />
+
+    <PreferenceCategory
+        android:focusedByDefault="false"
+        android:title="Copyright 2020 CryptoAlgo Inc.">
+
+    </PreferenceCategory>
+</PreferenceScreen>

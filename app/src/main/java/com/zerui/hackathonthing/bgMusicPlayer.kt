@@ -41,11 +41,10 @@ class bgMusicPlayer : Service() {
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         createNotificationChannel()
 
-        startForeground(1, getMyActivityNotification("Click for more options").build())
-
         when (intent.action) {
             PLAY -> {
                 if (isPaused) { // Safety check
+                    startForeground(1, getMyActivityNotification("Click for more options").build())
                     mediaPlayer.start()
                     isPaused = false
                 }
@@ -86,9 +85,7 @@ class bgMusicPlayer : Service() {
                         else {
                             // Return everything to default
                             it.release() // Don't hog up system resources
-                            Companion.isPlaying = false
-                            isPaused = false
-                            it.release()
+                            returnDefault()
                         }
                     }
                     isBuffering = true
@@ -114,6 +111,11 @@ class bgMusicPlayer : Service() {
         return START_STICKY // Restart service if killed
     }
 
+    private fun returnDefault() {
+        isPlaying = false
+        isPaused = false
+    }
+
     override fun onBind(intent: Intent): IBinder? {
         return null
     }
@@ -128,6 +130,7 @@ class bgMusicPlayer : Service() {
             val manager = getSystemService(
                 NotificationManager::class.java
             )
+            serviceChannel.setSound(null, null)
             manager.createNotificationChannel(serviceChannel)
         }
     }
@@ -144,10 +147,10 @@ class bgMusicPlayer : Service() {
             set(value) = if (this::mediaPlayer.isInitialized) { mediaPlayer.seekTo((value/100.0* mediaPlayer.duration).toInt()) } else {}
         var getElapsed: Long
             get() = mediaPlayer.currentPosition.toLong()
-            set(value) = TODO()
+            set(_) = TODO()
         var getRemaining: Long
             get() = (mediaPlayer.duration - mediaPlayer.currentPosition).toLong()
-            set(value) = TODO()
+            set(_) = TODO()
 
         private fun currentProgress(): Int {
             if (isPlaying) { // MediaPlayer has been init
