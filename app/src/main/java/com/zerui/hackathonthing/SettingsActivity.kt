@@ -103,7 +103,13 @@ class SettingsActivity : AppCompatActivity() {
                 val salt = map["salt"]
 
                 Log.d("EncryptTest", Base64.encodeToString(encrypted, Base64.NO_WRAP))
-                val decrypted = cryptography.decrypt(hashMapOf("iv" to iv!!, "salt" to salt!!, "encrypted" to encrypted!!), "password")
+                val decrypted = cryptography.decrypt(
+                    hashMapOf(
+                        "iv" to iv!!,
+                        "salt" to salt!!,
+                        "encrypted" to encrypted!!
+                    ), "abcdefgh"
+                )
                 var plainText: String? = null
                 decrypted?.let {
                     plainText = String(it, Charsets.UTF_8)

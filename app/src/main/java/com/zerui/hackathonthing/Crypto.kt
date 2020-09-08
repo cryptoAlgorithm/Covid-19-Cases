@@ -1,6 +1,5 @@
 package com.zerui.hackathonthing
 
-import android.provider.Settings
 import java.security.SecureRandom
 import javax.crypto.Cipher
 import javax.crypto.SecretKeyFactory
@@ -66,6 +65,10 @@ object Crypto {
         val cipher = Cipher.getInstance("AES/CBC/PKCS7Padding")
         val ivSpec = IvParameterSpec(iv)
         cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec)
-        return cipher.doFinal(encrypted)
+        return try {
+            cipher.doFinal(encrypted)
+        } catch (e: Exception) {
+            ByteArray(0)
+        }
     }
 }
