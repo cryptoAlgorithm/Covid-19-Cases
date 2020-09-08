@@ -7,12 +7,14 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.media.AudioAttributes
+import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import kotlin.Unit as Unit
 
 
 const val PLAY = "com.zerui.hackathonthing.action.PLAY"
@@ -69,12 +71,15 @@ class bgMusicPlayer : Service() {
                 val url = intent.getStringExtra("url").toString()
                 Log.w("url", url)
                 mediaPlayer = MediaPlayer().apply {
-                    setAudioAttributes(
-                        AudioAttributes.Builder()
-                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                            .setUsage(AudioAttributes.USAGE_MEDIA)
-                            .build()
-                    )
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        setAudioAttributes(
+                            AudioAttributes.Builder()
+                                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                                .setUsage(AudioAttributes.USAGE_MEDIA)
+                                .build()
+                        )
+                    }
+                    else setAudioStreamType(AudioManager.STREAM_MUSIC) // For phones below Lollipop
                     setDataSource(url)
                     setOnCompletionListener {
                         if (repeat) {
@@ -147,10 +152,10 @@ class bgMusicPlayer : Service() {
             set(value) = if (this::mediaPlayer.isInitialized) { mediaPlayer.seekTo((value/100.0* mediaPlayer.duration).toInt()) } else {}
         var getElapsed: Long
             get() = mediaPlayer.currentPosition.toLong()
-            set(_) = TODO()
+            set(_) = sinkHole()
         var getRemaining: Long
             get() = (mediaPlayer.duration - mediaPlayer.currentPosition).toLong()
-            set(_) = TODO()
+            set(_) = sinkHole()
 
         private fun currentProgress(): Int {
             if (isPlaying) { // MediaPlayer has been init
@@ -160,6 +165,8 @@ class bgMusicPlayer : Service() {
                 return 0 // Playing has not even started
             }
         }
+
+        private fun sinkHole() = Unit
 
         const val CHANNEL_ID = "MusicPlayerService"
     }

@@ -22,7 +22,6 @@ class ScrollingActivity : AppCompatActivity() {
     private lateinit var database: DatabaseReference
     private lateinit var ref: DatabaseReference
     private lateinit var pref: SharedPreferences
-    private lateinit var editor: SharedPreferences.Editor
     private var activityMenu: Menu? = null
     private var listState: Parcelable? = null
     val data: ArrayList<List<String>> = ArrayList()
@@ -36,7 +35,7 @@ class ScrollingActivity : AppCompatActivity() {
                 }
                 var i = 0 // .add won't work here as it'll just keep on adding and not delete old data
                 dataSnapshot.children.forEach {
-                    var dataList = it.value.toString().drop(1).dropLast(1)
+                    val dataList = it.value.toString().drop(1).dropLast(1)
                         .split(", (?=([^\"]*\"[^\"]*\")*[^\"]*$)".toRegex()).toMutableList()
                     dataList.add(it.key.toString()) // toString is safer than !!
                     if (useAdd) {
@@ -88,7 +87,7 @@ class ScrollingActivity : AppCompatActivity() {
         if (!this::database.isInitialized) {
             try {
                 // Well Firebase has a bad habit of spitting out errors
-                FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+                FirebaseDatabase.getInstance().setPersistenceEnabled(true)
             } catch (ex: Exception) {
                 // Nothing here!!!
             }
@@ -97,7 +96,6 @@ class ScrollingActivity : AppCompatActivity() {
         ref = database.child("nush-hackathon")
         // locations = database.child("locations")
         pref = applicationContext.getSharedPreferences("rickrollPref", Context.MODE_PRIVATE)
-        editor = pref.edit()
         setSupportActionBar(findViewById(R.id.toolbar))
         toolbar.title = title
         fab.setOnClickListener { // Can add view -> for the view var
@@ -196,6 +194,6 @@ class ScrollingActivity : AppCompatActivity() {
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
 
-        listState = savedInstanceState.getParcelable("listState");
+        listState = savedInstanceState.getParcelable("listState")
     }
 }

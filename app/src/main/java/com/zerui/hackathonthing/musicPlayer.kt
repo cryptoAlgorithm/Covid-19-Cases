@@ -10,6 +10,7 @@ import android.os.Handler
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.storage.FirebaseStorage
@@ -57,44 +58,55 @@ class MusicPlayer : AppCompatActivity() {
                     row.totalCases.visibility = View.GONE
                     // Replace underscores with spaces and capitalise (Somehow resources cannot have any of those)
                     row.setOnClickListener {
-                        buffering.visibility = View.VISIBLE
-                        item.downloadUrl.addOnSuccessListener {
-                            // Got the download URL for the music
-                            val intent = Intent(this@MusicPlayer, bgMusicPlayer::class.java)
-                                .apply {
-                                    action = "com.zerui.hackathonthing.action.CHANGEMUSIC"
-                                }
-                                .putExtra("songName", songName)
-                                .putExtra("url", it.toString())
-                            // .putExtra("srcResource", field.getInt(field))
-
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                startForegroundService(intent)
-                            }
-                            else {
-                                startService(intent)
-                            }
-                            // Music will stop when source is changed. So start it again
-                            val playIntent = Intent(this@MusicPlayer, bgMusicPlayer::class.java)
-                                .apply {
-                                    action = "com.zerui.hackathonthing.action.PLAY"
-                                }
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                startForegroundService(playIntent)
-                            }
-                            else {
-                                startService(playIntent)
-                            }
-                            // PausePlay won't work as it thinks it was not playing
-                            pausePlay.setImageDrawable(resources.getDrawable(R.drawable.ic_round_pause_24, applicationContext.theme))
-                            songTitle.text = songName
-                        }.addOnFailureListener {
-                            // Handle any errors
+                        if (bgMusicPlayer.isBuffering) {
                             Snackbar.make(
-                                findViewById<View>(R.id.content),
-                                "Failed to decode URL",
+                                it,
+                                "Another song is currently buffering. Please wait",
                                 Snackbar.LENGTH_SHORT
                             ).show()
+                        }
+                        else {
+                            buffering.visibility = View.VISIBLE
+                            item.downloadUrl.addOnSuccessListener {
+                                // Got the download URL for the music
+                                val intent = Intent(this@MusicPlayer, bgMusicPlayer::class.java)
+                                    .apply {
+                                        action = "com.zerui.hackathonthing.action.CHANGEMUSIC"
+                                    }
+                                    .putExtra("songName", songName)
+                                    .putExtra("url", it.toString())
+                                // .putExtra("srcResource", field.getInt(field))
+
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    startForegroundService(intent)
+                                } else {
+                                    startService(intent)
+                                }
+                                // Music will stop when source is changed. So start it again
+                                val playIntent =
+                                    Intent(this@MusicPlayer, bgMusicPlayer::class.java)
+                                        .apply {
+                                            action = "com.zerui.hackathonthing.action.PLAY"
+                                        }
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    startForegroundService(playIntent)
+                                } else {
+                                    startService(playIntent)
+                                }
+                                // PausePlay won't work as it thinks it was not playing
+                                pausePlay.setImageDrawable(
+                                    ContextCompat.getDrawable(applicationContext, R.drawable.ic_round_pause_24)
+                                )
+
+                                songTitle.text = songName
+                            }.addOnFailureListener {
+                                // Handle any errors
+                                Snackbar.make(
+                                    findViewById<View>(R.id.content),
+                                    "Failed to decode URL",
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                     }
                     songTable.addView(row)
@@ -124,7 +136,7 @@ class MusicPlayer : AppCompatActivity() {
             else {
                 startService(intent)
             }
-            pausePlay.setImageDrawable(resources.getDrawable(R.drawable.ic_round_play_arrow_24, applicationContext.theme))
+            pausePlay.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.ic_round_play_arrow_24))
         }
         else if (!bgMusicPlayer.isPlaying) {
             // No song is queued
@@ -145,7 +157,7 @@ class MusicPlayer : AppCompatActivity() {
             else {
                 startService(intent)
             }
-            pausePlay.setImageDrawable(resources.getDrawable(R.drawable.ic_round_pause_24, applicationContext.theme))
+            pausePlay.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.ic_round_pause_24))
         }
     }
 
@@ -168,7 +180,7 @@ class MusicPlayer : AppCompatActivity() {
         else {
             seekBar.progress = 0
             seekBar.isEnabled = false
-            pausePlay.setImageDrawable(resources.getDrawable(R.drawable.ic_round_play_arrow_24, applicationContext.theme))
+            pausePlay.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.ic_round_play_arrow_24))
         }
 
         if (!bgMusicPlayer.isBuffering) {
@@ -204,7 +216,6 @@ class MusicPlayer : AppCompatActivity() {
             @SuppressLint("SetTextI18n")
             override fun run() {
                 updateElements()
-
                 handler.postDelayed(this, 500)
             }
         }, 500)
@@ -222,7 +233,7 @@ class MusicPlayer : AppCompatActivity() {
 
         if (!bgMusicPlayer.isPaused && bgMusicPlayer.isPlaying) {
             // The music service was playing
-            pausePlay.setImageDrawable(resources.getDrawable(R.drawable.ic_round_pause_24, applicationContext.theme))
+            pausePlay.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.ic_round_pause_24))
         }
         songTitle.text = bgMusicPlayer.songName
 
@@ -243,7 +254,7 @@ class MusicPlayer : AppCompatActivity() {
             else {
                 startService(intent)
             }
-            pausePlay.setImageDrawable(resources.getDrawable(R.drawable.ic_round_play_arrow_24, applicationContext.theme))
+            pausePlay.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.ic_round_play_arrow_24))
         }
         repeatToggle.setOnCheckedChangeListener { _, isChecked ->
             bgMusicPlayer.repeat = isChecked
